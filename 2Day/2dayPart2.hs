@@ -22,6 +22,3 @@ main = do
   ipt <- readFile "input"
   let res = sum $ map ((maxCalc (0,0,0)) . gameGroup . chopper . preSplit) $ lines ipt
   print res
---  let test = head $ lines ipt
---  print $ maxCalc (0,0,0) $ gameGroup $ chopper $ preSplit test
---  print $ maxCalc (0,0,0) []
