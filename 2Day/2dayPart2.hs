@@ -1,0 +1,27 @@
+import Data.Maybe
+import Data.List
+import Data.List.Split
+
+preSplit game = snd $ (fromJust . uncons) $ splitOneOf ":;" game
+
+chopper game = map (wordsBy (`elem` " ,")) game
+
+pairOff = map (\pair -> (read $ head pair :: Int, last pair)) 
+
+gameGroup game = concat $ map (pairOff . chunksOf 2) game
+
+maxCalc (red, green, blue) [] = red * green * blue
+maxCalc (red, green, blue) list
+  | color == "red" = maxCalc (max value red, green, blue) (tail list)
+  | color == "green" = maxCalc (red, max value green, blue) (tail list)
+  | color == "blue" = maxCalc (red, green, max value blue) (tail list)
+  where color = snd $ head list
+        value = fst $ head list
+
+main = do
+  ipt <- readFile "input"
+  let res = sum $ map ((maxCalc (0,0,0)) . gameGroup . chopper . preSplit) $ lines ipt
+  print res
+--  let test = head $ lines ipt
+--  print $ maxCalc (0,0,0) $ gameGroup $ chopper $ preSplit test
+--  print $ maxCalc (0,0,0) []
