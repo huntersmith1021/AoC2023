@@ -2,14 +2,19 @@ import Data.Maybe
 import Data.List
 import Data.List.Split
 
+-- We only need the draws 
 preSplit game = snd $ (fromJust . uncons) $ splitOneOf ":;" game
 
+-- Split up draws 
 chopper game = map (wordsBy (`elem` " ,")) game
 
+-- Create tuple (number, color)
 pairOff = map (\pair -> (read $ head pair :: Int, last pair)) 
 
+-- Reformat all draws together
 gameGroup game = concat $ map (pairOff . chunksOf 2) game
 
+-- Find maximum for each color & multiply them all together
 maxCalc (red, green, blue) [] = red * green * blue
 maxCalc (red, green, blue) list
   | color == "red" = maxCalc (max value red, green, blue) (tail list)
