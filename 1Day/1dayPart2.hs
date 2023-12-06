@@ -15,11 +15,13 @@ convert x
   | otherwise = x
 
 
+-- Find first valid number by chopping off head until one is found
 fstOcc x
   | (length $ fstAv x) > 0 = head $ fstAv x
   | otherwise = fstOcc $ tail x
   where fstAv x = filter (`elem` valid) $ inits x
 
+-- Find last valid number by chopping off the last until one is found
 lstOcc x
   | (length $ lstAv x) > 0 = last $ lstAv x
   | otherwise = lstOcc $ init x
@@ -29,5 +31,6 @@ justNums x = (convert . fstOcc) x ++ (convert . lstOcc) x
 
 main = do
   ipt <- readFile "input"
+  -- Sum all lines' two digit numbers 
   let rst = sum $ map (\x -> read $ justNums x :: Int) $ lines ipt
   print rst
