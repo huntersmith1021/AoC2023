@@ -1,6 +1,7 @@
 import Data.List
 import Data.List.Split
 
+-- Reformat so we only have my numbers & the winning numbers
 chopper card = map words $ (splitOn "|" . drop 2 . dropWhile (/= ':')) card
 
 score card = winnCalc $ intersect (head card) (last card)
